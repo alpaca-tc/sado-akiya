@@ -13,3 +13,9 @@ Slackで監視する場合は、下記のコマンドを叩く。
 ```
 /feed subscribe https://sado-akiya.vercel.app/api/rss
 ```
+
+## Development
+
+```
+$ vercel dev
+```
