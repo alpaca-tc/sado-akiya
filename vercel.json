@@ -1,0 +1,8 @@
+{
+  "functions": {
+    "api/rss.ts": {
+      "runtime": "vercel-deno@1.1.0",
+      "includeFiles": "api/*.ts"
+    }
+  }
+}
