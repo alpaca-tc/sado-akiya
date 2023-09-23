@@ -1,10 +1,9 @@
 import {
   DOMParser,
   Element,
-  Node,
-} from "https://deno.land/x/deno_dom/deno-dom-wasm.ts";
-import { Feed } from "https://jspm.dev/feed";
-import { urlParse } from "https://deno.land/x/url_parse/mod.ts";
+} from "https://deno.land/x/deno_dom@v0.1.36-alpha/deno-dom-wasm.ts";
+import { Feed } from "npm:feed@4.2.2";
+import { urlParse } from "https://deno.land/x/url_parse@1.1.0/mod.ts";
 
 class Entry {
   constructor(
@@ -46,9 +45,11 @@ export const generateRss2 = async (): Promise<string> => {
   });
 
   const responseFeed = new Feed({
+    id: BASE_URL,
+    copyright: "",
     title: pageDom.querySelector("title")!.innerText,
     description: pageDom.querySelector('meta[name="description"]')!
-      .getAttribute("content"),
+      .getAttribute("content")!,
     link: FEED_URL,
     updated: entries[0]!.updated,
   });

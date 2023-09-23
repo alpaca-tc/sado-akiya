@@ -1,8 +1,9 @@
-import { generateRss2 } from "./mod.ts"
+#!/usr/bin/env DENO_DIR=/tmp deno run
+import { generateRss2 } from "./mod.ts";
 
-export default async (request: any) => {
-  const body = await generateRss2()
+export default async (_request: Request) => {
+  const body = await generateRss2();
   const headers = new Headers({ "Content-Type": "application/rss+xml" });
 
-  request.respond({ status: 200, headers, body });
+  return new Response(body, { status: 200, headers });
 };

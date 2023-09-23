@@ -1,10 +1,8 @@
 import {
   DOMParser,
   Element,
-  Node,
-} from "https://deno.land/x/deno_dom/deno-dom-wasm.ts";
-import { Feed } from "https://jspm.dev/feed";
-import { urlParse } from "https://deno.land/x/url_parse/mod.ts";
+} from "https://deno.land/x/deno_dom@v0.1.36-alpha/deno-dom-wasm.ts";
+import { Feed } from "npm:feed@4.2.2";
 
 type Entry = {
   id: string;
@@ -101,6 +99,8 @@ export const generateApartmentRss2 = async (): Promise<string> => {
   const entries = await fetchEntries(APARTMENT_URL);
 
   const responseFeed = new Feed({
+    id: APARTMENT_URL,
+    copyright: "",
     title: "アイディ アパート情報",
     description: "",
     link: APARTMENT_URL,
@@ -124,9 +124,11 @@ export const generateKashiyaRss2 = async (): Promise<string> => {
   const entries = await fetchEntries(KASHIYA_URL);
 
   const responseFeed = new Feed({
-    title: "アイディ アパート情報",
+    id: KASHIYA_URL,
+    copyright: "",
+    title: "アイディ 貸家情報",
     description: "",
-    link: APARTMENT_URL,
+    link: KASHIYA_URL,
     updated: entries[0]!.updated,
   });
 

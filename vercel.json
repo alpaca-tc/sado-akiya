@@ -1,16 +1,8 @@
 {
   "functions": {
-    "api/niigata_jp/rss.ts": {
-      "runtime": "vercel-deno@1.1.0",
-      "includeFiles": "api/niigata_jp/*.ts"
-    },
-    "api/idsd_jp/apartment_rss.ts": {
-      "runtime": "vercel-deno@1.1.0",
-      "includeFiles": "api/idsd_jp/*.ts"
-    },
-    "api/idsd_jp/kashiya_rss.ts": {
-      "runtime": "vercel-deno@1.1.0",
-      "includeFiles": "api/idsd_jp/*.ts"
+    "api/**/*rss.ts": {
+      "runtime": "vercel-deno@3.0.4",
+      "includeFiles": "api/**/mod.ts"
     }
   }
 }
