@@ -14,6 +14,8 @@ Slackで監視する場合は、下記のコマンドを叩く。
 # 株式会社アイディ
 # アパート情報 http://idsd.jp/apindx.htm
 /feed subscribe https://sado-akiya.vercel.app/api/idsd_jp/apartment_rss
+# 貸家情報 http://idsd.jp/kashiya.htm
+/feed subscribe https://sado-akiya.vercel.app/api/idsd_jp/kashiya_rss
 ```
 
 ## Development

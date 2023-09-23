@@ -7,6 +7,10 @@
     "api/idsd_jp/apartment_rss.ts": {
       "runtime": "vercel-deno@1.1.0",
       "includeFiles": "api/idsd_jp/*.ts"
+    },
+    "api/idsd_jp/kashiya_rss.ts": {
+      "runtime": "vercel-deno@1.1.0",
+      "includeFiles": "api/idsd_jp/*.ts"
     }
   }
 }

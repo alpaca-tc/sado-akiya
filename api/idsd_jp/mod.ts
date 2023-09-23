@@ -16,17 +16,7 @@ type Entry = {
 
 const BASE_URL = "http://idsd.jp/";
 const APARTMENT_URL = `${BASE_URL}apindx.htm`;
-
-async function shiftJISToUTF8(response: string) {
-  if (response.headers.get("content-type")?.includes("text")) {
-    const buffer = await response.arrayBuffer();
-    const decoder = new TextDecoder("shift_jis");
-    const text = decoder.decode(buffer);
-    return text;
-  } else {
-    throw new Error("Response is not text data.");
-  }
-}
+const KASHIYA_URL = `${BASE_URL}kashiya.htm`;
 
 const fetchUtf8 = async (url: string) => {
   const response = await fetch(url);
@@ -38,7 +28,7 @@ const fetchUtf8 = async (url: string) => {
 };
 
 const parseJpDate = (date: string): Date => {
-  const regexp = /^(?<year>\d{4})年(?<month>\d+)月(?<day>\d+)日$/;
+  const regexp = /^(?<year>\d{4})年(?<month>\d+)月(?<day>\d+)日/;
   const match = date.match(regexp)!;
   const groups = Object.values(match.groups!).map((str) =>
     parseInt(str, 10)
@@ -76,7 +66,7 @@ const parseApartment = (link: string, html: string): Entry => {
     findVerticalPair("所在地")!,
     findVerticalPair("間取り　専有面積")!,
     `校区: ${findHorizonalPair("校　区")!}`,
-  ].join(" ");
+  ].map((str) => str.replace(/[ \n ]+/m, "")).join(" ");
 
   return {
     id: link,
@@ -87,8 +77,8 @@ const parseApartment = (link: string, html: string): Entry => {
   };
 };
 
-const fetchApartments = async () => {
-  const body = await fetchUtf8(APARTMENT_URL);
+const fetchEntries = async (url: string) => {
+  const body = await fetchUtf8(url);
   const pageDom = new DOMParser().parseFromString(body, "text/html")!;
   const uDoms = Array.from(pageDom.querySelectorAll("u")) as Element[];
   const anchorLinks = Array.from(uDoms).filter((element) =>
@@ -108,7 +98,30 @@ const fetchApartments = async () => {
 };
 
 export const generateApartmentRss2 = async (): Promise<string> => {
-  const entries = await fetchApartments();
+  const entries = await fetchEntries(APARTMENT_URL);
+
+  const responseFeed = new Feed({
+    title: "アイディ アパート情報",
+    description: "",
+    link: APARTMENT_URL,
+    updated: entries[0]!.updated,
+  });
+
+  entries.forEach((entry) => {
+    responseFeed.addItem({
+      title: entry.title,
+      id: entry.id,
+      link: entry.link,
+      description: "",
+      date: entry.updated,
+    });
+  });
+
+  return responseFeed.rss2();
+};
+
+export const generateKashiyaRss2 = async (): Promise<string> => {
+  const entries = await fetchEntries(KASHIYA_URL);
 
   const responseFeed = new Feed({
     title: "アイディ アパート情報",
