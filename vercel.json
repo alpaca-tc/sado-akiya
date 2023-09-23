@@ -1,8 +1,8 @@
 {
   "functions": {
-    "api/rss.ts": {
+    "api/niigata_jp/rss.ts": {
       "runtime": "vercel-deno@1.1.0",
-      "includeFiles": "api/*.ts"
+      "includeFiles": "api/niigata_jp/*.ts"
     }
   }
 }

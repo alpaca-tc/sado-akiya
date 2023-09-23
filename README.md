@@ -6,12 +6,12 @@
 
 vercelで管理されているため、下記のフィードを監視すれば良い。
 
-https://sado-akiya.vercel.app/api/rss
+https://sado-akiya.vercel.app/api/niigata_jp/rss
 
 Slackで監視する場合は、下記のコマンドを叩く。
 
 ```
-/feed subscribe https://sado-akiya.vercel.app/api/rss
+/feed subscribe https://sado-akiya.vercel.app/api/niigata_jp/rss
 ```
 
 ## Development
