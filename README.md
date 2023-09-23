@@ -1,17 +1,19 @@
 ## 佐渡空き家情報RSS
 
-佐渡市が提供している[空き家情報サイト](https://www.city.sado.niigata.jp/site/ijyu/5419.html)を監視するために、RSSに変換したデータを提供する。
+佐渡に関連する物件情報をRSSに変換したデータを提供する
 
 ## デプロイ
-
-vercelで管理されているため、下記のフィードを監視すれば良い。
-
-https://sado-akiya.vercel.app/api/niigata_jp/rss
 
 Slackで監視する場合は、下記のコマンドを叩く。
 
 ```
+# 佐渡市提供の空き家情報サイト
+# https://www.city.sado.niigata.jp/site/ijyu/5419.html
 /feed subscribe https://sado-akiya.vercel.app/api/niigata_jp/rss
+
+# 株式会社アイディ
+# アパート情報 http://idsd.jp/apindx.htm
+/feed subscribe https://sado-akiya.vercel.app/api/idsd_jp/apartment_rss
 ```
 
 ## Development
