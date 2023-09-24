@@ -13,8 +13,6 @@ type Entry = {
 };
 
 const BASE_URL = "http://idsd.jp/";
-const APARTMENT_URL = `${BASE_URL}apindx.htm`;
-const KASHIYA_URL = `${BASE_URL}kashiya.htm`;
 
 const fetchUtf8 = async (url: string) => {
   const response = await fetch(url);
@@ -96,14 +94,15 @@ const fetchEntries = async (url: string) => {
 };
 
 export const generateApartmentRss2 = async (): Promise<string> => {
-  const entries = await fetchEntries(APARTMENT_URL);
+  const url = `${BASE_URL}apindx.htm`;
+  const entries = await fetchEntries(url);
 
   const responseFeed = new Feed({
-    id: APARTMENT_URL,
+    id: url,
     copyright: "",
     title: "アイディ アパート情報",
     description: "",
-    link: APARTMENT_URL,
+    link: url,
     updated: entries[0]!.updated,
   });
 
@@ -121,14 +120,15 @@ export const generateApartmentRss2 = async (): Promise<string> => {
 };
 
 export const generateKashiyaRss2 = async (): Promise<string> => {
-  const entries = await fetchEntries(KASHIYA_URL);
+  const url = `${BASE_URL}kashiya.htm`;
+  const entries = await fetchEntries(url);
 
   const responseFeed = new Feed({
-    id: KASHIYA_URL,
+    id: url,
     copyright: "",
     title: "アイディ 貸家情報",
     description: "",
-    link: KASHIYA_URL,
+    link: url,
     updated: entries[0]!.updated,
   });
 

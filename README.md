@@ -16,6 +16,10 @@ Slackで監視する場合は、下記のコマンドを叩く。
 /feed subscribe https://sado-akiya.vercel.app/api/idsd_jp/apartment_rss
 # 貸家情報 http://idsd.jp/kashiya.htm
 /feed subscribe https://sado-akiya.vercel.app/api/idsd_jp/kashiya_rss
+
+# スマイティ
+# 中古物件 https://sumaity.com/house/used/area_list/?sort1=2&search_type=a&page_count=30&pref_id=15&create_date=0&acity_id%5B%5D=15224000000
+/feed subscribe https://sado-akiya.vercel.app/api/sumaity_com/chuuko_rss 
 ```
 
 ## Development
