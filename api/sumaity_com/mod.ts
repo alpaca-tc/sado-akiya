@@ -64,10 +64,12 @@ const parseArticle = async (link: string): Promise<Entry> => {
     dom.querySelector(".price")!.innerText
   }`;
 
+  const createdDate = dom.querySelector("#update")!.innerText.replace(/^登録日：/, '')
+
   return {
     id: link,
     title,
-    updated: parseJpDate(info["更新日"]!),
+    updated: parseJpDate(createdDate),
     content,
     link,
   };
