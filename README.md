@@ -25,6 +25,9 @@ Slackで監視する場合は、下記のコマンドを叩く。
 # 賃貸情報 https://hagitakanchi.annex-homes.jp/bukken_display_24911.html
 /feed subscribe https://sado-akiya.vercel.app/api/hagita_kanchi_com/chintai_rss
 
+# 中古物件 https://www.hagita-kanchi.com/bukken_display_1916.html
+/feed subscribe https://sado-akiya.vercel.app/api/hagita_kanchi_com/resale_priority_rss
+
 # 賃貸情報 https://www.hagita-kanchi.com/bukken_display_6412.html
 /feed subscribe https://sado-akiya.vercel.app/api/hagita_kanchi_com/kodate_rss
 ```

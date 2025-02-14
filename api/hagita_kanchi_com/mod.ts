@@ -15,6 +15,7 @@ type Entry = {
 const CHINTAI_URL =
   "https://hagitakanchi.annex-homes.jp/bukken_display_24911.html";
 const KODATE_URL = "https://www.hagita-kanchi.com/bukken_display_6412.html";
+const RESALE_PROPERTY_URL = "https://www.hagita-kanchi.com/bukken_display_1916.html";
 
 type Row = {
   // COLLECTION: string;
@@ -244,64 +245,54 @@ type Row = {
   // WALKMINUTESTEXT3: null
 };
 
-const parseRow = (row: Row): Entry => {
+const parseRow = (prefix: string, row: Row): Entry => {
   return {
     id: row.ID,
     title:
       `${row.BUKKENNAME} ${row.MADORITEXT} (${row.MONEYROOMTEXT}) ${row.FULLADDR}`,
     updated: new Date(row.NEWDATE),
     content: row.TOKUCHOU,
-    link: `https://www.hagita-kanchi.com/detail/1184/BRent/${row.ID}`,
+    link: `${prefix}/${row.ID}`,
   };
 };
 
-const fetchChintaiEntries = async (): Promise<Entry[]> => {
-  const body = await fetch(
+const search = async (prefix: string, body: string): Promise<Entry[]> => {
+  const responseBody = await fetch(
     "https://hagitakanchi.annex-homes.jp/b4h_customer/api/search",
     {
       "headers": {
         "accept": "application/json, text/javascript, */*; q=0.01",
         "content-type": "application/x-www-form-urlencoded",
       },
-      "body":
-        "siteKey=1184&memberid=100485&groupid=&payFlag=0&otherCompanyFlag=0&btsg=3001&baseaddr11=15&baseaddr1=15224&addr1=15224&rosen=&eki=&ccf=&free_word=%E4%B8%A1%E6%B4%A5&moneyroom=&moneyroomh=&moneycombo=0&housearea=&houseareah=&madori=&houseage=&walkminutesh=&pictmadori=0&pictmisc=0&panorama=0&newdate=&balconyarea=&flgused=0&landarea=&landareah=&buscombo=0&tbg=&housekouzou=&rimawari=&genkyo=&pricemode=1&floatHideFlag=0&domain=https%3A%2F%2Fwww.hagita-kanchi.com%2F&hits=30&page=1&sortby=-newdate",
+      "body": body,
       "method": "POST",
     },
   ).then((res) => res.json());
 
-  const rows = (body as { ROWSET: Row[] }).ROWSET;
+  const rows = (responseBody as { ROWSET: Row[] }).ROWSET;
 
-  return await Promise.all(rows.map(parseRow));
+  return rows.map((row) => parseRow(prefix, row));
+}
+
+const fetchChintaiEntries = (): Promise<Entry[]> => {
+  return search("https://www.hagita-kanchi.com/detail/1184/BRent", "siteKey=1184&memberid=100485&groupid=&payFlag=0&otherCompanyFlag=0&btsg=3001&baseaddr11=15&baseaddr1=15224&addr1=15224&rosen=&eki=&ccf=&free_word=%E4%B8%A1%E6%B4%A5&moneyroom=&moneyroomh=&moneycombo=0&housearea=&houseareah=&madori=&houseage=&walkminutesh=&pictmadori=0&pictmisc=0&panorama=0&newdate=&balconyarea=&flgused=0&landarea=&landareah=&buscombo=0&tbg=&housekouzou=&rimawari=&genkyo=&pricemode=1&floatHideFlag=0&domain=https%3A%2F%2Fwww.hagita-kanchi.com%2F&hits=30&page=1&sortby=-newdate")
 };
 
-const fetchKodateEntries = async (): Promise<Entry[]> => {
-  const body = await fetch(
-    "https://www.hagita-kanchi.com/b4h_customer/api/search",
-    {
-      "headers": {
-        "accept": "application/json, text/javascript, */*; q=0.01",
-        "content-type": "application/x-www-form-urlencoded",
-      },
-      "body":
-        "siteKey=1184&memberid=100485&groupid=&payFlag=0&otherCompanyFlag=0&btsg=3005&baseaddr11=15&baseaddr1=15224&addr1=15224&rosen=&eki=&ccf=&free_word=&moneyroom=&moneyroomh=&moneycombo=0&housearea=&houseareah=&madori=&houseage=&walkminutesh=&pictmadori=0&pictmisc=0&panorama=0&newdate=&balconyarea=&flgused=0&landarea=&landareah=&buscombo=0&tbg=&housekouzou=&rimawari=&genkyo=&pricemode=1&floatHideFlag=0&domain=https%3A%2F%2Fwww.hagita-kanchi.com%2F&hits=30&page=1&sortby=-newdate",
-      "method": "POST",
-    },
-  ).then((res) => res.json());
-
-  const rows = (body as { ROWSET: Row[] }).ROWSET;
-
-  return await Promise.all(rows.map(parseRow));
+const fetchKodateEntries = (): Promise<Entry[]> => {
+  return search("https://www.hagita-kanchi.com/detail/1184/BRent", "siteKey=1184&memberid=100485&groupid=&payFlag=0&otherCompanyFlag=0&btsg=3005&baseaddr11=15&baseaddr1=15224&addr1=15224&rosen=&eki=&ccf=&free_word=&moneyroom=&moneyroomh=&moneycombo=0&housearea=&houseareah=&madori=&houseage=&walkminutesh=&pictmadori=0&pictmisc=0&panorama=0&newdate=&balconyarea=&flgused=0&landarea=&landareah=&buscombo=0&tbg=&housekouzou=&rimawari=&genkyo=&pricemode=1&floatHideFlag=0&domain=https%3A%2F%2Fwww.hagita-kanchi.com%2F&hits=30&page=1&sortby=-newdate")
 };
 
-export const generateChintaiRss2 = async (): Promise<string> => {
-  const entries = await fetchChintaiEntries();
+const fetchResalePropertyEntries = async (): Promise<Entry[]> => {
+  return search("https://www.hagita-kanchi.com/detail/1184/BSale", "siteKey=1184&memberid=100485&groupid=&payFlag=1&otherCompanyFlag=0&btsg=1005&baseaddr11=15&baseaddr1=15224&addr1=15224&rosen=&eki=&ccf=&free_word=&moneyroom=&moneyroomh=&moneycombo=0&housearea=&houseareah=&madori=&houseage=&walkminutesh=&pictmadori=0&pictmisc=1&panorama=0&newdate=&balconyarea=&flgused=1&landarea=&landareah=&buscombo=0&tbg=&housekouzou=&rimawari=&genkyo=&pricemode=1&floatHideFlag=0&domain=https%3A%2F%2Fwww.hagita-kanchi.com%2F&hits=30&page=1&sortby=-newdate")
+};
 
+const generateRss = (title: string, link: string, entries: Entry[]): string => {
   const responseFeed = new Feed({
-    id: CHINTAI_URL,
+    id: link,
     copyright: "",
-    title: "萩田換地 賃貸",
+    title,
     description: "",
-    link: CHINTAI_URL,
+    link,
     updated: entries[0]!.updated,
   });
 
@@ -316,31 +307,18 @@ export const generateChintaiRss2 = async (): Promise<string> => {
   });
 
   return responseFeed.rss2();
+}
+
+export const generateChintaiRss2 = async (): Promise<string> => {
+  return generateRss("萩田換地 賃貸", CHINTAI_URL, await fetchChintaiEntries());
 };
 
 export const generateKodateRss2 = async (): Promise<string> => {
-  const entries = await fetchKodateEntries();
-
-  const responseFeed = new Feed({
-    id: KODATE_URL,
-    copyright: "",
-    title: "萩田換地 戸建て賃貸",
-    description: "",
-    link: KODATE_URL,
-    updated: entries[0]!.updated,
-  });
-
-  entries.forEach((entry) => {
-    responseFeed.addItem({
-      title: entry.title,
-      id: entry.id,
-      link: entry.link,
-      description: "",
-      date: entry.updated,
-    });
-  });
-
-  return responseFeed.rss2();
+  return generateRss("萩田換地 戸建て賃貸", KODATE_URL, await fetchKodateEntries());
 };
 
-console.log(await generateKodateRss2());
+export const generateResalePropertyRss2 = async (): Promise<string> => {
+  return generateRss("萩田換地 中古物件", RESALE_PROPERTY_URL, await fetchResalePropertyEntries());
+};
+
+console.log(await generateResalePropertyRss2());
