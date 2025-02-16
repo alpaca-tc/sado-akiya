@@ -16,6 +16,7 @@ const CHINTAI_URL =
   "https://hagitakanchi.annex-homes.jp/bukken_display_24911.html";
 const KODATE_URL = "https://www.hagita-kanchi.com/bukken_display_6412.html";
 const RESALE_PROPERTY_URL = "https://www.hagita-kanchi.com/bukken_display_1916.html";
+const LOT_URL = "https://www.hagita-kanchi.com/bukken_display_30187.html";
 
 type Row = {
   // COLLECTION: string;
@@ -274,6 +275,10 @@ const search = async (prefix: string, body: string): Promise<Entry[]> => {
   return rows.map((row) => parseRow(prefix, row));
 }
 
+const fetchLotEntries = (): Promise<Entry[]> => {
+  return search("https://www.hagita-kanchi.com/detail/1184/BSale", "siteKey=1184&memberid=100485&groupid=&payFlag=1&otherCompanyFlag=0&btsg=1002&baseaddr11=15&baseaddr1=15224&addr1=15224&rosen=&eki=&ccf=&free_word=&moneyroom=&moneyroomh=&moneycombo=0&housearea=&houseareah=&madori=&houseage=&walkminutesh=&pictmadori=0&pictmisc=0&panorama=0&newdate=&balconyarea=&flgused=0&landarea=&landareah=&buscombo=0&tbg=&housekouzou=&rimawari=&genkyo=&pricemode=1&floatHideFlag=0&domain=https%3A%2F%2Fwww.hagita-kanchi.com%2F&hits=30&page=1&sortby=monthmoneyroom")
+};
+
 const fetchChintaiEntries = (): Promise<Entry[]> => {
   return search("https://www.hagita-kanchi.com/detail/1184/BRent", "siteKey=1184&memberid=100485&groupid=&payFlag=0&otherCompanyFlag=0&btsg=3001&baseaddr11=15&baseaddr1=15224&addr1=15224&rosen=&eki=&ccf=&free_word=%E4%B8%A1%E6%B4%A5&moneyroom=&moneyroomh=&moneycombo=0&housearea=&houseareah=&madori=&houseage=&walkminutesh=&pictmadori=0&pictmisc=0&panorama=0&newdate=&balconyarea=&flgused=0&landarea=&landareah=&buscombo=0&tbg=&housekouzou=&rimawari=&genkyo=&pricemode=1&floatHideFlag=0&domain=https%3A%2F%2Fwww.hagita-kanchi.com%2F&hits=30&page=1&sortby=-newdate")
 };
@@ -309,6 +314,10 @@ const generateRss = (title: string, link: string, entries: Entry[]): string => {
   return responseFeed.rss2();
 }
 
+export const generateLotRss2 = async (): Promise<string> => {
+  return generateRss("萩田換地 土地", LOT_URL, await fetchLotEntries());
+};
+
 export const generateChintaiRss2 = async (): Promise<string> => {
   return generateRss("萩田換地 賃貸", CHINTAI_URL, await fetchChintaiEntries());
 };
@@ -321,4 +330,4 @@ export const generateResalePropertyRss2 = async (): Promise<string> => {
   return generateRss("萩田換地 中古物件", RESALE_PROPERTY_URL, await fetchResalePropertyEntries());
 };
 
-console.log(await generateResalePropertyRss2());
+console.log(await generateLotRss2());

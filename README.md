@@ -22,6 +22,9 @@ Slackで監視する場合は、下記のコマンドを叩く。
 /feed subscribe https://sado-akiya.vercel.app/api/sumaity_com/chuuko_rss 
 
 # 萩田換地
+# 土地情報 https://www.hagita-kanchi.com/bukken_display_30187.html
+/feed subscribe https://sado-akiya.vercel.app/api/hagita_kanchi_com/lot_rss
+
 # 賃貸情報 https://hagitakanchi.annex-homes.jp/bukken_display_24911.html
 /feed subscribe https://sado-akiya.vercel.app/api/hagita_kanchi_com/chintai_rss
 
